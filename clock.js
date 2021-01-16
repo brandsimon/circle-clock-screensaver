@@ -1,4 +1,5 @@
 var antialiasing = 2;
+var secPerDay = 24 * 60 * 60;
 function dayStateCreator(modulo) {
 	return function(seconds) {
 		return (seconds % modulo) / modulo;
@@ -6,11 +7,24 @@ function dayStateCreator(modulo) {
 }
 var timeConfig = [
 	{
+		// Seconds
 		'func': dayStateCreator(60),
 	}, {
+		// Minutes
 		'func': dayStateCreator(60 * 60),
 	}, {
-		'func': dayStateCreator(24 * 60 * 60),
+		// Hours
+		'func': dayStateCreator(secPerDay),
+	}, {
+		// Day per Month
+		'func': function() {
+			var now = new Date();
+			var year = now.getYear() + 1900;
+			var month = now.getMonth();
+			var daysPerMonth = new Date(year, month + 1, 0).getDate();
+			var secPerMonth = secPerDay * daysPerMonth;
+			return (now - new Date(year, month, 1)) / 1000 / secPerMonth;
+		},
 	}
 ];
 
