@@ -68,7 +68,7 @@ function main() {
 	var clock = new Clock();
 	function loop() {
 		clock.draw();
-		setTimeout(loop, 40);
+		window.requestAnimationFrame(loop);
 	}
 	loop();
 }
