@@ -31,18 +31,22 @@ function Clock() {
 	var width = undefined;
 	var height = undefined;
 
-	me.draw = function () {
-		var xCenter = width / 2;
-		var yCenter = height / 2;
-		var seconds = Date.now() / 1000;
-		var lineWidth = 80;
-		var outerRadius = Math.min(width, height) / 2 - 1.5 * lineWidth;
-		var elementsDone = 0
-
+	function updateSize() {
 		width = elem.clientWidth * antialiasing;
 		height = elem.clientHeight * antialiasing;
 		elem.width = width;
 		elem.height = height;
+	}
+
+	me.draw = function () {
+		updateSize();
+		var xCenter = Math.round(width / 2);
+		var yCenter = Math.round(height / 2);
+		var seconds = Date.now() / 1000;
+		var lineWidth = 80;
+		var outerRadius = Math.round(
+			Math.min(width, height) / 2 - 1.5 * lineWidth);
+		var elementsDone = 0
 
 		timeConfig.forEach(function(config) {
 			var state = config['func'](seconds);
