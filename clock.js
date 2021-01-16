@@ -1,11 +1,16 @@
 var antialiasing = 2;
+function dayStateCreator(modulo) {
+	return function(seconds) {
+		return (seconds % modulo) / modulo;
+	};
+}
 var timeConfig = [
 	{
-		'modulo': 60,
+		'func': dayStateCreator(60),
 	}, {
-		'modulo': 60 * 60,
+		'func': dayStateCreator(60 * 60),
 	}, {
-		'modulo': 24 * 60 * 60,
+		'func': dayStateCreator(24 * 60 * 60),
 	}
 ];
 
@@ -40,8 +45,7 @@ function Clock() {
 		elem.height = height;
 
 		timeConfig.forEach(function(config) {
-			var modulo = config['modulo'];
-			var state = (seconds % modulo) / modulo;
+			var state = config['func'](seconds);
 			ctx.beginPath();
 			ctx.lineWidth = lineWidth;
 			var startAngle = Math.PI * 1.5;
