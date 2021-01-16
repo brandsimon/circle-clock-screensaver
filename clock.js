@@ -25,6 +25,15 @@ var timeConfig = [
 			var secPerMonth = secPerDay * daysPerMonth;
 			return (now - new Date(year, month, 1)) / 1000 / secPerMonth;
 		},
+	}, {
+		// Month per Year
+		'func': function() {
+			var now = new Date();
+			var year = now.getYear() + 1900;
+			var firstJan = new Date(year, 0, 1);
+			var msPerYear = new Date(year + 1, 0, 1) - firstJan;
+			return (now - firstJan) / msPerYear;
+		},
 	}
 ];
 
