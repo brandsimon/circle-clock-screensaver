@@ -1,7 +1,8 @@
 var antialiasing = 2;
 var secPerDay = 24 * 60 * 60;
 function dayStateCreator(modulo) {
-	return function(seconds) {
+	return function(now) {
+		var seconds = now.getTime() / 1000;
 		return (seconds % modulo) / modulo;
 	};
 }
@@ -17,8 +18,7 @@ var timeConfig = [
 		'func': dayStateCreator(secPerDay),
 	}, {
 		// Day per Month
-		'func': function() {
-			var now = new Date();
+		'func': function(now) {
 			var year = now.getYear() + 1900;
 			var month = now.getMonth();
 			var daysPerMonth = new Date(year, month + 1, 0).getDate();
@@ -27,8 +27,7 @@ var timeConfig = [
 		},
 	}, {
 		// Month per Year
-		'func': function() {
-			var now = new Date();
+		'func': function(now) {
 			var year = now.getYear() + 1900;
 			var firstJan = new Date(year, 0, 1);
 			var msPerYear = new Date(year + 1, 0, 1) - firstJan;
@@ -65,14 +64,14 @@ function Clock() {
 		updateSize();
 		var xCenter = Math.round(width / 2);
 		var yCenter = Math.round(height / 2);
-		var seconds = Date.now() / 1000;
+		var now = new Date();
 		var lineWidth = 80;
 		var outerRadius = Math.round(
 			Math.min(width, height) / 2 - 1.5 * lineWidth);
 		var elementsDone = 0
 
 		timeConfig.forEach(function(config) {
-			var state = config['func'](seconds);
+			var state = config['func'](now);
 			ctx.beginPath();
 			ctx.lineWidth = lineWidth;
 			var startAngle = Math.PI * 1.5;
