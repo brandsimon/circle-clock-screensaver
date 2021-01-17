@@ -66,8 +66,8 @@ function Clock() {
 	var height = undefined;
 
 	function updateSize() {
-		width = elem.clientWidth * antialiasing;
-		height = elem.clientHeight * antialiasing;
+		width = Math.max(elem.clientWidth, 536) * antialiasing;
+		height = Math.max(elem.clientHeight, 536) * antialiasing;
 		elem.width = width;
 		elem.height = height;
 	}
