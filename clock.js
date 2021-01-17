@@ -1,21 +1,26 @@
 var antialiasing = 2;
 var secPerDay = 24 * 60 * 60;
-function dayStateCreator(modulo) {
+function dayStateCreator(modulo, textMultiplier) {
 	return function(now) {
 		var seconds = now.getTime() / 1000;
-		return (seconds % modulo) / modulo;
+		var result = (seconds % modulo) / modulo;
+		var text = Math.floor(result * textMultiplier);
+		return {
+			'state': result,
+			'text': text.toString(),
+		};
 	};
 }
 var timeConfig = [
 	{
 		// Seconds
-		'func': dayStateCreator(60),
+		'func': dayStateCreator(60, 60),
 	}, {
 		// Minutes
-		'func': dayStateCreator(60 * 60),
+		'func': dayStateCreator(60 * 60, 60),
 	}, {
 		// Hours
-		'func': dayStateCreator(secPerDay),
+		'func': dayStateCreator(secPerDay, 24),
 	}, {
 		// Day per Month
 		'func': function(now) {
@@ -23,7 +28,11 @@ var timeConfig = [
 			var month = now.getMonth();
 			var daysPerMonth = new Date(year, month + 1, 0).getDate();
 			var secPerMonth = secPerDay * daysPerMonth;
-			return (now - new Date(year, month, 1)) / 1000 / secPerMonth;
+			var firstJan = new Date(year, month, 1);
+			return {
+				'state': (now - firstJan) / 1000 / secPerMonth,
+				'text': now.getDate(),
+			};
 		},
 	}, {
 		// Month per Year
@@ -31,7 +40,10 @@ var timeConfig = [
 			var year = now.getYear() + 1900;
 			var firstJan = new Date(year, 0, 1);
 			var msPerYear = new Date(year + 1, 0, 1) - firstJan;
-			return (now - firstJan) / msPerYear;
+			return {
+				'state': (now - firstJan) / msPerYear,
+				'text': now.getMonth() + 1,
+			};
 		},
 	}
 ];
@@ -71,7 +83,8 @@ function Clock() {
 		var elementsDone = 0
 
 		timeConfig.forEach(function(config) {
-			var state = config['func'](now);
+			var result = config['func'](now);
+			var state = result['state'];
 			ctx.beginPath();
 			ctx.lineWidth = lineWidth;
 			var startAngle = Math.PI * 1.5;
@@ -80,6 +93,12 @@ function Clock() {
 			ctx.arc(xCenter, yCenter, radius, startAngle, endAngle, false);
 			ctx.strokeStyle = circleColor(state);
 			ctx.stroke();
+
+			ctx.fillStyle = 'white';
+			ctx.font = '40px serif';
+			ctx.textAlign = 'center';
+			ctx.fillText(result['text'], xCenter + 30, yCenter - radius + 15);
+
 			elementsDone = elementsDone + 1;
 		});
 	};
