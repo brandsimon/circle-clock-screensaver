@@ -48,14 +48,17 @@ var timeConfig = [
 	}
 ];
 
+function closeWindow() {
+	window.open('', '_self', '');
+	window.close();
+}
+
 function circleColor(state) {
 	var total = 360;
 	var start = 230;
 	var pos = state * total + start;
 	var hue = pos.toString(10);
 	return ["hsl(", hue, ", 100%, 60%)"].join("");
-}
-function drawCircle(ctx, fill) {
 }
 
 function Clock() {
@@ -111,6 +114,10 @@ function main() {
 		clock.draw();
 		window.requestAnimationFrame(loop);
 	}
+	var body = document.getElementById("body");
+	body.addEventListener("keydown", function () {
+		closeWindow();
+	});
 	loop();
 }
 window.addEventListener('load', main);
