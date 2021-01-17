@@ -95,7 +95,7 @@ function Clock() {
 			ctx.stroke();
 
 			ctx.fillStyle = 'white';
-			ctx.font = '40px sans-serif';
+			ctx.font = '40px helvetica';
 			ctx.textAlign = 'center';
 			ctx.fillText(result['text'], xCenter + 30, yCenter - radius + 15);
 
