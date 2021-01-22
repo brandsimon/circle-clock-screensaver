@@ -1,5 +1,6 @@
 # circle-clock-screensaver
-Screensaver which shows the time and date as circles
+Screensaver which shows the time and date as circles.
+The screensaver closes on a keypress, it does not exit on mouseclick or mousemove.
 
 You can set the this project as a screensaver via a nwjs or a browser, e.g.
 Create a batch file to start the browser:
