@@ -2,7 +2,7 @@ var antialiasing = 2;
 var secPerDay = 24 * 60 * 60;
 function dayStateCreator(modulo, textMultiplier) {
 	return function(now) {
-		var seconds = now.getTime() / 1000;
+		var seconds = now.getTime() / 1000 - now.getTimezoneOffset() * 60;
 		var result = (seconds % modulo) / modulo;
 		var text = Math.floor(result * textMultiplier);
 		return {
