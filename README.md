@@ -13,5 +13,5 @@ rem
 
 Register the screensaver
 ```regedit
-reg add "HKEY_CURRENT_USER\Control Panel\Desktop" /v SCRNSAVE.EXE /t REG_SZ /d C:\screensaver\firefox.bat /f`
+reg add "HKEY_CURRENT_USER\Control Panel\Desktop" /v SCRNSAVE.EXE /t REG_SZ /d C:\screensaver\firefox.bat /f
 ```
